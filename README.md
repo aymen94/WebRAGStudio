@@ -30,7 +30,6 @@ See the [interface screenshots](SCREENSHOTS.md) for a visual overview of the app
 git clone <repository-url>
 cd WebRAGStudio
 pnpm install
-Copy-Item .env.example .env.local  # PowerShell; on macOS/Linux: cp .env.example .env.local
 pnpm dev
 ```
 
@@ -62,7 +61,7 @@ The Settings page is the easiest way to configure a provider. Chat and embedding
 
 ### OpenAI
 
-In Settings choose `openai`, set the base URL to `https://api.openai.com/v1`, enter an API key, and select compatible chat and embedding models. Or set `LLM_PROVIDER`, `LLM_MODEL`, `LLM_BASE_URL`, `LLM_API_KEY`, and corresponding `EMBEDDING_*` values in `.env.local`.
+In Settings choose `openai`, set the base URL to `https://api.openai.com/v1`, enter an API key, and select compatible chat and embedding models. Or set `LLM_PROVIDER`, `LLM_MODEL`, `LLM_BASE_URL`, `LLM_API_KEY`, and corresponding `EMBEDDING_*` values in your local `.env.config`.
 
 ### Ollama
 
@@ -82,7 +81,7 @@ For vLLM, LM Studio, or another OpenAI-compatible server, choose `openai-compati
 
 ## Configuration and data
 
-See `.env.example` for environment variable names and example values. The app also reads a local `.env.config`; Next.js reads `.env.local`. Shell/container variables take precedence over `.env.config`. Do not commit real environment files or keys.
+The app reads environment variables from a local `.env.config`; Next.js also reads `.env.local`. `.env.config` is ignored by Git, so create it locally if it is not present in your checkout. Configure the provider variables described above or use the Settings page. Shell/container variables take precedence over `.env.config`. Do not commit environment files or keys.
 
 Data is stored locally:
 
