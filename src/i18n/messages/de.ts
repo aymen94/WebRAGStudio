@@ -120,5 +120,6 @@ const messages = {
   "Choose theme": "Design auswählen",
   "Theme colors": "Designfarben",
   "Close theme picker": "Designauswahl schließen",
+  "GitHub repository": "GitHub-Repository",
 };
 export default messages;

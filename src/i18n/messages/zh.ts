@@ -116,5 +116,6 @@ const messages = {
   "Choose theme": "选择主题",
   "Theme colors": "主题颜色",
   "Close theme picker": "关闭主题选择",
+  "GitHub repository": "GitHub 仓库",
 };
 export default messages;

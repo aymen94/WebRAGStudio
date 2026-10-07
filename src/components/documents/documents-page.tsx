@@ -5,6 +5,10 @@ import {
   DocumentList,
   type DocumentRow,
 } from "@/components/documents/document-list";
+import {
+  SelectPicker,
+  type PickerOption,
+} from "@/components/shared/select-picker";
 import { useI18n } from "@/i18n/provider";
 
 type Collection = { id: string; name: string; documents: number };
@@ -52,6 +56,13 @@ export function DocumentsPage({
   onRemoveDocument,
 }: Props) {
   const { t } = useI18n();
+  const collectionOptions = [
+    { value: "", label: t("All collections") },
+    ...collections.map((collection) => ({
+      value: collection.id,
+      label: collection.name,
+    })),
+  ] satisfies readonly PickerOption<string>[];
   return (
     <>
       <div className="page-heading">
@@ -62,20 +73,14 @@ export function DocumentsPage({
             {t("Upload files or write text to index into your collection.")}
           </p>
         </div>
-        <label className="collection-picker">
-          <span>{t("Collection")}</span>
-          <select
-            value={selected}
-            onChange={(e) => setSelected(e.target.value)}
-          >
-            <option value="">{t("All collections")}</option>
-            {collections.map((c) => (
-              <option value={c.id} key={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </select>
-        </label>
+        <SelectPicker
+          className="collection-picker"
+          accessibilityLabel={t("Collection")}
+          label={t("Collection")}
+          options={collectionOptions}
+          value={selected}
+          onChange={setSelected}
+        />
       </div>
       {!selected ? (
         <section className="panel document-list-panel">

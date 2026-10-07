@@ -194,7 +194,7 @@
   overflow: hidden;
 }
 
-.scope :global(.collection-picker) {
+.scope :global(.select-picker.collection-picker) {
   display: grid;
   gap: 5px;
   color: #828798;
@@ -202,7 +202,8 @@
   font-weight: 600;
 }
 
-.scope :global(.collection-picker) select {
+.scope :global(.select-picker.collection-picker)
+  :global(.select-picker-trigger) {
   min-width: 180px;
 }
 
@@ -358,13 +359,18 @@
     grid-template-columns: 1fr;
   }
 
-  .scope :global(.collection-picker) {
+  .scope :global(.select-picker.collection-picker) {
     max-width: 150px;
   }
 
-  .scope :global(.collection-picker) select {
+  .scope :global(.select-picker.collection-picker) {
+    width: 100%;
+  }
+
+  .scope :global(.select-picker.collection-picker)
+    :global(.select-picker-trigger) {
     min-width: 0;
-    max-width: 150px;
+    width: 100%;
   }
 
   .scope :global(.pagination) {

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { ReactNode } from "react";
 import layoutStyles from "@/app/layout.module.css";
 import sharedStyles from "@/app/shared.module.css";
@@ -61,7 +62,14 @@ export function AppFrame({
             onNavigate("Dashboard");
           }}
         >
-          <span className="brand-mark">R</span>
+          <Image
+            className="brand-mark"
+            src="/apple-touch-icon.png"
+            alt=""
+            width={37}
+            height={37}
+            priority
+          />
           <span>WebRAGStudio</span>
         </a>
         <div className="nav-label">{t("Web RAG Studio")}</div>
@@ -117,6 +125,15 @@ export function AppFrame({
             </div>
           )}
         </main>
+        <footer className="app-footer">
+          <a
+            href="https://github.com/aymen94/WebRAGStudio"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t("GitHub repository")}
+          </a>
+        </footer>
       </div>
       {dialogElement}
     </div>

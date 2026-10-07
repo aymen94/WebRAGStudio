@@ -117,5 +117,6 @@ const messages = {
   "Choose theme": "اختر سمة",
   "Theme colors": "ألوان السمة",
   "Close theme picker": "إغلاق اختيار السمة",
+  "GitHub repository": "مستودع GitHub",
 };
 export default messages;

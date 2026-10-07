@@ -165,6 +165,7 @@ const messages = {
   "Browse, download, export, or remove files in this knowledge base.":
     "Browse, download, export, or remove files in this knowledge base.",
   "All systems local": "All systems local",
+  "GitHub repository": "GitHub repository",
 } as const;
 
 export default messages;

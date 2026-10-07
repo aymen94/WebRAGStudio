@@ -12,6 +12,10 @@ import {
   ActivityConsole,
   type Activity,
 } from "@/components/chat/activity-console";
+import {
+  SelectPicker,
+  type PickerOption,
+} from "@/components/shared/select-picker";
 import { useI18n } from "@/i18n/provider";
 
 type Collection = { id: string; name: string; documents: number };
@@ -65,6 +69,13 @@ export function ChatPage({
   chatLogRef,
 }: Props) {
   const { t } = useI18n();
+  const collectionOptions = [
+    { value: "", label: t("Select collection") },
+    ...collections.map((collection) => ({
+      value: collection.id,
+      label: collection.name,
+    })),
+  ] satisfies readonly PickerOption<string>[];
   const activeCollection = collections.find(
     (collection) => collection.id === selected,
   );
@@ -76,24 +87,18 @@ export function ChatPage({
           <h1>{t("Chat")}</h1>
           <p>{t("Ask questions grounded in your indexed documents.")}</p>
         </div>
-        <label className="collection-picker">
-          <span>{t("Collection")}</span>
-          <select
-            value={selected}
-            onChange={(e) => {
-              setSelected(e.target.value);
-              setCurrentSessionId("");
-              setChatMessages([]);
-            }}
-          >
-            <option value="">{t("Select collection")}</option>
-            {collections.map((c) => (
-              <option value={c.id} key={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </select>
-        </label>
+        <SelectPicker
+          className="collection-picker"
+          accessibilityLabel={t("Collection")}
+          label={t("Collection")}
+          options={collectionOptions}
+          value={selected}
+          onChange={(id) => {
+            setSelected(id);
+            setCurrentSessionId("");
+            setChatMessages([]);
+          }}
+        />
       </div>
       <div className="chat-layout">
         <ChatHistory
