@@ -1,5 +1,9 @@
 # WebRAGStudio
 
+<p align="center">
+  <img src="public/logo.png" alt="WebRAGStudio logo" width="180" />
+</p>
+
 WebRAGStudio is a self-hosted, single-user RAG app for indexing local documents and asking questions against the retrieved passages. It runs as one Next.js application and stores its data in a local SQLite database.
 
 See the [interface screenshots](SCREENSHOTS.md) for a visual overview of the app.
