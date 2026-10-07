@@ -1,0 +1,58 @@
+{
+  "name": "WebRAGStudio",
+  "version": "0.1.0",
+  "description": "A self-hostable RAG app for indexing documents locally and chatting with your data using OpenAI, Ollama, or compatible LLMs with chat",
+  "license": "MIT",
+  "author": "aymen94 (https://github.com/aymen94)",
+  "homepage": "https://github.com/aymen94/WebRAGStudio#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aymen94/WebRAGStudio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aymen94/WebRAGStudio/issues"
+  },
+  "keywords": [
+    "rag",
+    "retrieval-augmented-generation",
+    "llm",
+    "chat",
+    "openai",
+    "ollama",
+    "self-hosted",
+    "nextjs",
+    "sqlite",
+    "embeddings",
+    "vector-search"
+  ],
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test",
+    "db:push": "node -e \"console.log('SQLite schema is initialized automatically when the app starts.')\""
+  },
+  "dependencies": {
+    "@ai-sdk/openai-compatible": "^3.0.63",
+    "ai": "^7.0.128",
+    "mammoth": "^1.13.0",
+    "next": "16.4.0",
+    "pdf-parse": "^2.4.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@unocss/postcss": "^66.7.5",
+    "@types/node": "^26.6.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "eslint": "^10.12.0",
+    "eslint-config-next": "16.4.0",
+    "unocss": "^66.7.5",
+    "typescript": "^7.0.2"
+  },
+  "packageManager": "pnpm@12.10.1"
+}

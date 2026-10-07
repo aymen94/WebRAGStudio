@@ -1,0 +1,109 @@
+.scope {
+}
+
+.scope :global(.stats-grid) {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.scope :global(.stat-card) {
+  display: flex;
+  min-height: 105px;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid #ececf3;
+  border-radius: 10px;
+  padding: 18px;
+  background: #fff;
+  box-shadow: 0 2px 7px #29305a05;
+}
+
+.scope :global(.stat-icon) {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 10px;
+  font-size: 17px;
+}
+
+.scope :global(.violet) {
+  color: var(--theme-accent);
+  background: var(--theme-accent-soft);
+}
+
+.scope :global(.blue) {
+  color: #4b88d0;
+  background: #edf5ff;
+}
+
+.scope :global(.green) {
+  color: #30a579;
+  background: #e9f8f1;
+}
+
+.scope :global(.orange) {
+  color: #d18a42;
+  background: #fff4e7;
+}
+
+.scope :global(.stat-card) p {
+  margin: 0 0 7px;
+  color: #8c91a1;
+  font-size: 10px;
+}
+
+.scope :global(.stat-card) strong {
+  color: #30354a;
+  font-size: 22px;
+  font-weight: 720;
+}
+
+.scope :global(.stat-card) :global(.model-name) {
+  font-size: 12px;
+}
+
+.scope :global(.dashboard-grid) {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(260px, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 1050px) {
+  .scope :global(.stats-grid) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .scope :global(.dashboard-grid) {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .scope :global(.stats-grid) {
+    gap: 9px;
+  }
+
+  .scope :global(.stat-card) {
+    min-height: 86px;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .scope :global(.stat-icon) {
+    width: 32px;
+    height: 32px;
+  }
+
+  .scope :global(.stat-card) strong {
+    font-size: 19px;
+  }
+
+  .scope :global(.stat-card) :global(.model-name) {
+    font-size: 10px;
+  }
+}

@@ -1,0 +1,184 @@
+.scope {
+}
+
+.scope :global(.collection-row) {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 11px;
+  border: 0;
+  border-top: 1px solid #f1f1f5;
+  padding: 12px 20px;
+  background: #fff;
+  text-align: left;
+}
+
+.scope :global(.collection-row):hover {
+  background: #faf9ff;
+}
+
+.scope :global(.collection-symbol) {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid #ece9fb;
+  border-radius: 8px;
+  color: var(--theme-accent);
+  background: #f6f4ff;
+  font-size: 15px;
+}
+
+.scope :global(.collection-name) {
+  flex: 1;
+  color: #454a5d;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.scope :global(.collection-name) small {
+  display: block;
+  margin-top: 4px;
+  color: #9a9eac;
+  font-size: 9px;
+  font-weight: 450;
+}
+
+.scope :global(.chevron) {
+  color: #b5b7c2;
+  font-size: 20px;
+}
+
+.scope :global(.create-panel) {
+  padding: 17px 20px;
+  margin-bottom: 16px;
+}
+
+.scope :global(.inline-form) {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+}
+
+.scope :global(.inline-form) label {
+  display: grid;
+  flex: 1;
+  gap: 7px;
+  color: #777c8e;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.scope :global(.back-link) {
+  margin: -9px 0 14px;
+  border: 0;
+  padding: 6px 0;
+  color: #6a57cb;
+  background: transparent;
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.scope :global(.back-link):hover {
+  color: #4c3ab3;
+}
+
+.scope :global(.collection-grid) {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.scope :global(.collection-card) {
+  border: 1px solid #e9eaf1;
+  border-radius: 10px;
+  padding: 17px;
+  background: #fff;
+}
+
+.scope :global(.collection-selected) {
+  border-color: #a99cec;
+  box-shadow: 0 0 0 2px #735fda12;
+}
+
+.scope :global(.collection-card-main) {
+  display: grid;
+  width: 100%;
+  justify-items: start;
+  gap: 9px;
+  border: 0;
+  padding: 0 0 15px;
+  background: transparent;
+  text-align: left;
+}
+
+.scope :global(.collection-symbol):global(.large) {
+  width: 39px;
+  height: 39px;
+}
+
+.scope :global(.collection-card-main) strong {
+  color: #41465a;
+  font-size: 12px;
+}
+
+.scope :global(.collection-card-main) > span:last-child {
+  color: #9a9eac;
+  font-size: 10px;
+}
+
+.scope :global(.collection-card-actions) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #f0f0f4;
+  padding-top: 9px;
+}
+
+.scope :global(.collection-card-actions) > div {
+  display: flex;
+  gap: 2px;
+}
+
+.scope :global(.icon-button) {
+  display: grid;
+  width: 27px;
+  height: 27px;
+  place-items: center;
+  border: 0;
+  border-radius: 6px;
+  color: #85899a;
+  background: transparent;
+}
+
+.scope :global(.icon-button):hover {
+  color: #5946bf;
+  background: #f4f1ff;
+}
+
+.scope :global(.icon-button):global(.danger):hover {
+  color: #c34e5b;
+  background: #fff0f0;
+}
+
+@media (max-width: 1050px) {
+  .scope :global(.collection-grid) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .scope :global(.collection-grid) {
+    grid-template-columns: 1fr;
+  }
+
+  .scope :global(.inline-form) {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .scope :global(.inline-form) :global(.button) {
+    align-self: flex-start;
+  }
+}

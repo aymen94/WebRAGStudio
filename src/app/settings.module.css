@@ -1,0 +1,153 @@
+.scope {
+}
+
+.scope :global(.panel-heading) h2,
+.scope :global(.action-card) h2,
+.scope :global(.settings-card) h2 {
+  margin: 0;
+  color: #33384b;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.scope :global(.settings-card) {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 12px;
+  padding: 20px;
+}
+
+.scope :global(.settings-icon) {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--theme-accent);
+  background: var(--theme-accent-soft);
+}
+
+.scope :global(.settings-card) > div:nth-child(2) {
+  flex: 1;
+}
+
+.scope :global(.settings-card) p {
+  margin: 8px 0 0;
+  color: #898e9f;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.scope :global(.settings-card) code {
+  border-radius: 4px;
+  padding: 2px 4px;
+  color: #6755c3;
+  background: #f4f2fc;
+  font-size: 9px;
+}
+
+.scope :global(.settings-form) {
+  display: grid;
+  gap: 14px;
+}
+
+.scope :global(.settings-editor) {
+  padding: 18px 20px;
+}
+
+.scope :global(.settings-section-heading) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.scope :global(.settings-section-heading) h2 {
+  margin: 0;
+  color: #33384b;
+  font-size: 13px;
+}
+
+.scope :global(.settings-section-heading) p {
+  margin: 5px 0 0;
+  color: #969aaa;
+  font-size: 10px;
+}
+
+.scope :global(.settings-fields) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.scope :global(.settings-fields) label {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  color: #777c8e;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.scope :global(.settings-fields) input,
+.scope :global(.settings-fields) select {
+  width: 100%;
+}
+
+.scope :global(.settings-fields) small {
+  color: #969aaa;
+  font-size: 9px;
+  font-weight: 400;
+}
+
+.scope :global(.settings-wide) {
+  grid-column: 1/-1;
+}
+
+.scope :global(.settings-check) {
+  display: flex !important;
+  grid-column: 1/-1;
+  align-items: center;
+}
+
+.scope :global(.settings-check) input {
+  width: auto;
+}
+
+.scope :global(.settings-save-row) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.scope :global(.settings-save-row) > span {
+  color: #969aaa;
+  font-size: 10px;
+}
+
+@media (max-width: 700px) {
+  .scope :global(.settings-card) {
+    flex-wrap: wrap;
+  }
+
+  .scope :global(.settings-card) :global(.status) {
+    margin-left: 50px;
+  }
+
+  .scope :global(.settings-fields) {
+    grid-template-columns: 1fr;
+  }
+
+  .scope :global(.settings-wide) {
+    grid-column: auto;
+  }
+
+  .scope :global(.settings-save-row) {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,159 @@
+.scope {
+}
+
+.scope :global(input),
+.scope :global(textarea),
+.scope :global(select) {
+  min-width: 0;
+  border: 1px solid #e4e5ed;
+  border-radius: 7px;
+  padding: 9px 11px;
+  outline: none;
+  color: #404558;
+  background: #fff;
+  font-size: 11px;
+  transition:
+    border 0.15s,
+    box-shadow 0.15s;
+}
+
+.scope button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.scope :global(.button) {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  padding: 0 13px;
+  font-size: 11px;
+  font-weight: 650;
+  transition: 0.15s ease;
+}
+
+.scope :global(.button-spinner) {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  flex: 0 0 auto;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: button-spin 0.7s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.scope :global(.button-primary) {
+  color: white;
+  background: var(--theme-accent);
+  box-shadow: 0 2px 5px var(--theme-accent-shadow);
+}
+
+.scope :global(.button-primary):hover {
+  background: var(--theme-accent-hover);
+  transform: translateY(-1px);
+}
+
+.scope :global(.button-light) {
+  border-color: #e6e7ee;
+  color: #616679;
+  background: #fff;
+}
+
+.scope :global(.button-light):hover:not(:disabled) {
+  border-color: var(--theme-accent-border);
+  color: var(--theme-accent);
+}
+
+.scope :global(.panel) {
+  border: 1px solid #e9eaf1;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 2px 7px #29305a04;
+}
+
+.scope :global(.panel-heading) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 18px 20px 14px;
+}
+
+.scope :global(.panel-heading) p {
+  margin: 5px 0 0;
+  color: #9a9eac;
+  font-size: 10px;
+}
+
+.scope :global(.text-button) {
+  border: 0;
+  padding: 5px;
+  color: #6956ce;
+  background: transparent;
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.scope :global(.text-button):hover {
+  color: #4938b0;
+}
+
+.scope :global(.full-button) {
+  width: calc(100% - 36px);
+  margin: 10px 18px 17px;
+}
+
+.scope :global(.delete-action) {
+  color: #bd5862;
+}
+
+.scope :global(.delete-action):hover {
+  border-color: #f0cbd0;
+  background: #fff7f7;
+}
+
+.scope input:focus,
+.scope textarea:focus,
+.scope select:focus {
+  border-color: #9587e5;
+  box-shadow: 0 0 0 3px #735fda15;
+}
+
+.scope input::placeholder,
+.scope textarea::placeholder {
+  color: #b1b4bf;
+}
+
+.scope :global(.small-orb) {
+  width: 25px;
+  height: 25px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.scope :global(.toast) {
+  position: fixed;
+  right: 24px;
+  bottom: 22px;
+  z-index: 30;
+  max-width: min(420px, calc(100vw - 32px));
+  border: 1px solid #e6e5ef;
+  border-radius: 9px;
+  padding: 12px 16px;
+  color: #4f5365;
+  background: #fff;
+  box-shadow: 0 8px 28px #24274618;
+  font-size: 11px;
+}

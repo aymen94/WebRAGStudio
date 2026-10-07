@@ -1,0 +1,381 @@
+@unocss all;
+
+:root {
+  --theme-accent: #6551d3;
+  --theme-secondary: #24a88c;
+  --theme-accent-hover: #5140bd;
+  --theme-accent-soft: #f0edff;
+  --theme-accent-wash: #f7f5ff;
+  --theme-accent-border: #d7d0f5;
+  --theme-accent-shadow: #6551d326;
+  --app-page: #f7f8fc;
+  --app-surface: #ffffff;
+  --app-surface-raised: #ffffff;
+  --app-border: #e9eaf1;
+  --app-text: #202538;
+  --app-muted: #898e9f;
+  --app-input: #ffffff;
+  color-scheme: light;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  color: var(--app-text);
+  background: var(--app-page);
+  font-synthesis: none;
+}
+
+:root[data-theme="ocean"] {
+  --theme-accent: #1677b8;
+  --theme-secondary: #24a8a0;
+  --theme-accent-hover: #0d5e95;
+  --theme-accent-soft: #e8f5fc;
+  --theme-accent-wash: #f3faff;
+  --theme-accent-border: #b9def2;
+  --theme-accent-shadow: #1677b826;
+}
+
+:root[data-theme="forest"] {
+  --theme-accent: #23815b;
+  --theme-secondary: #a2a932;
+  --theme-accent-hover: #176243;
+  --theme-accent-soft: #eaf6ef;
+  --theme-accent-wash: #f3fbf6;
+  --theme-accent-border: #bce4ce;
+  --theme-accent-shadow: #23815b26;
+}
+
+:root[data-theme="rose"] {
+  --theme-accent: #c04e78;
+  --theme-secondary: #e89655;
+  --theme-accent-hover: #a43d63;
+  --theme-accent-soft: #fff0f4;
+  --theme-accent-wash: #fff7f9;
+  --theme-accent-border: #f0c4d3;
+  --theme-accent-shadow: #c04e7826;
+}
+
+:root[data-theme="amber"] {
+  --theme-accent: #b66a14;
+  --theme-secondary: #267f83;
+  --theme-accent-hover: #8f4f0c;
+  --theme-accent-soft: #fff5e7;
+  --theme-accent-wash: #fffaf2;
+  --theme-accent-border: #efd3aa;
+  --theme-accent-shadow: #b66a1426;
+}
+
+:root[data-theme="slate"] {
+  --theme-accent: #52647d;
+  --theme-secondary: #8c6bc9;
+  --theme-accent-hover: #3c4b61;
+  --theme-accent-soft: #eef2f7;
+  --theme-accent-wash: #f6f8fb;
+  --theme-accent-border: #cbd5e1;
+  --theme-accent-shadow: #52647d26;
+}
+
+:root[data-theme^="dark-"] {
+  --app-page: #101218;
+  --app-surface: #191d25;
+  --app-surface-raised: #202631;
+  --app-border: #333b49;
+  --app-text: #eceff5;
+  --app-muted: #a4adbc;
+  --app-input: #131720;
+  color-scheme: dark;
+}
+
+:root[data-theme="dark-violet"] {
+  --theme-accent: #b7a9ff;
+  --theme-secondary: #4fd1b6;
+  --theme-accent-hover: #d0c7ff;
+  --theme-accent-soft: #a695ff24;
+  --theme-accent-wash: #a695ff12;
+  --theme-accent-border: #a695ff66;
+  --theme-accent-shadow: #a695ff35;
+}
+
+:root[data-theme="dark-ocean"] {
+  --theme-accent: #79d0ff;
+  --theme-secondary: #5cd6c3;
+  --theme-accent-hover: #a6e0ff;
+  --theme-accent-soft: #66c8ff24;
+  --theme-accent-wash: #66c8ff12;
+  --theme-accent-border: #66c8ff66;
+  --theme-accent-shadow: #66c8ff35;
+}
+
+:root[data-theme="dark-forest"] {
+  --theme-accent: #7ee2ad;
+  --theme-secondary: #d0db72;
+  --theme-accent-hover: #a8efc8;
+  --theme-accent-soft: #6bd6a024;
+  --theme-accent-wash: #6bd6a012;
+  --theme-accent-border: #6bd6a066;
+  --theme-accent-shadow: #6bd6a035;
+}
+
+:root[data-theme="dark-rose"] {
+  --theme-accent: #ffa3c0;
+  --theme-secondary: #ffc279;
+  --theme-accent-hover: #ffc4d5;
+  --theme-accent-soft: #ff91b324;
+  --theme-accent-wash: #ff91b312;
+  --theme-accent-border: #ff91b366;
+  --theme-accent-shadow: #ff91b335;
+}
+
+:root[data-theme="dark-graphite"],
+:root[data-theme="dark-slate"],
+:root[data-theme="dark-midnight"] {
+  --theme-accent-hover: #e1e5ea;
+  --theme-accent-soft: #c4cbd524;
+  --theme-accent-wash: #c4cbd512;
+  --theme-accent-border: #c4cbd566;
+  --theme-accent-shadow: #c4cbd535;
+}
+
+:root[data-theme="dark-graphite"] {
+  --theme-accent: #c4cbd5;
+  --theme-secondary: #7e8998;
+}
+
+:root[data-theme="dark-slate"] {
+  --theme-accent: #d3d7dc;
+  --theme-secondary: #89939f;
+  --theme-accent-soft: #d3d7dc24;
+  --theme-accent-wash: #d3d7dc12;
+  --theme-accent-border: #d3d7dc66;
+  --theme-accent-shadow: #d3d7dc35;
+}
+
+:root[data-theme="dark-midnight"] {
+  --theme-accent: #b7bec8;
+  --theme-secondary: #697584;
+  --theme-accent-soft: #b7bec824;
+  --theme-accent-wash: #b7bec812;
+  --theme-accent-border: #b7bec866;
+  --theme-accent-shadow: #b7bec835;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--app-text);
+  background: var(--app-page);
+}
+
+:root[data-theme^="dark-"]
+  .app-shell
+  :is(
+    .sidebar,
+    .topbar,
+    .panel,
+    .settings-card,
+    .settings-editor,
+    .chat-console-card,
+    .chat-history,
+    .chat-panel,
+    .action-card,
+    .collection-card,
+    .stat-card,
+    .theme-popover,
+    .answer-card,
+    .chat-history-item,
+    .toast
+  ) {
+  color: var(--app-text);
+  background-color: var(--app-surface);
+  border-color: var(--app-border);
+}
+
+:root[data-theme^="dark-"]
+  .app-shell
+  :is(.button-light, .icon-button, .table-action, .theme-trigger) {
+  color: var(--app-text);
+  background-color: var(--app-surface-raised);
+  border-color: var(--app-border);
+}
+
+:root[data-theme^="dark-"] .app-shell .table-action.delete-action {
+  color: #ff8c99;
+  background-color: #ff8c9916;
+  border-color: #ff8c9955;
+}
+
+:root[data-theme^="dark-"] .app-shell .doc-search {
+  color: var(--app-muted);
+}
+
+:root[data-theme^="dark-"] .app-shell .settings-shortcut {
+  color: var(--app-text);
+  background-color: var(--app-surface-raised);
+  border-color: var(--app-border);
+}
+
+:root[data-theme^="dark-"] .app-shell .settings-shortcut:hover,
+:root[data-theme^="dark-"]
+  .app-shell
+  .settings-shortcut.settings-shortcut-active {
+  color: var(--theme-accent);
+  background-color: var(--theme-accent-soft);
+  border-color: var(--theme-accent-border);
+}
+
+:root[data-theme^="dark-"] .app-shell .collection-row {
+  background-color: var(--app-surface);
+  border-top-color: var(--app-border);
+}
+
+:root[data-theme^="dark-"] .app-shell .collection-row:hover {
+  background-color: var(--theme-accent-wash);
+}
+
+:root[data-theme^="dark-"] .app-shell .collection-symbol {
+  color: var(--theme-accent);
+  background-color: var(--theme-accent-soft);
+  border-color: var(--theme-accent-border);
+}
+
+:root[data-theme^="dark-"] .app-shell .file-picker-action {
+  color: var(--theme-accent);
+  background-color: var(--app-surface-raised);
+  border-color: var(--theme-accent-border);
+}
+
+:root[data-theme^="dark-"] .app-shell .file-picker-copy strong {
+  color: var(--app-text);
+}
+
+:root[data-theme^="dark-"] .app-shell .file-picker-copy small {
+  color: var(--app-muted);
+}
+
+:root[data-theme^="dark-"] .app-shell .button-primary {
+  color: #171923;
+}
+
+:root[data-theme^="dark-"] .app-shell :is(input, textarea, select) {
+  color: var(--app-text);
+  background-color: var(--app-input);
+  border-color: var(--app-border);
+}
+
+:root[data-theme^="dark-"] .app-shell .content table,
+:root[data-theme^="dark-"] .app-shell .content table th,
+:root[data-theme^="dark-"] .app-shell .content table td {
+  color: var(--app-text);
+  background-color: var(--app-surface-raised);
+  border-color: var(--app-border);
+}
+
+:root[data-theme^="dark-"]
+  .app-shell
+  .content
+  :is(
+    h1,
+    h2,
+    h3,
+    strong,
+    .brand,
+    .nav-label,
+    .local-badge,
+    .breadcrumb strong,
+    .collection-name,
+    .chat-history-open,
+    .answer-label,
+    .message-label,
+    .settings-fields label > span,
+    .settings-section-heading p,
+    .theme-popover > strong,
+    .empty
+  ) {
+  color: var(--app-text);
+}
+
+:root[data-theme^="dark-"]
+  .app-shell
+  :is(
+    .brand,
+    .nav-label,
+    .local-badge,
+    .breadcrumb,
+    .breadcrumb strong,
+    .topbar-right,
+    .theme-popover > strong,
+    .theme-option
+  ) {
+  color: var(--app-text);
+}
+
+:root[data-theme^="dark-"]
+  .app-shell
+  .content
+  :is(
+    p,
+    small,
+    .breadcrumb,
+    .page-heading p,
+    .panel-heading p,
+    .settings-fields small,
+    .theme-option
+  ) {
+  color: var(--app-muted);
+}
+
+:root .app-shell select {
+  appearance: none;
+  padding-right: 30px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23777c8e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  cursor: pointer;
+}
+
+:root .app-shell select:focus {
+  border-color: var(--theme-accent);
+  box-shadow: 0 0 0 3px var(--theme-accent-shadow);
+}
+
+:root .app-shell select:disabled {
+  cursor: not-allowed;
+}
+
+:root .app-shell select option {
+  color: #202538;
+  background: #fff;
+}
+
+:root[data-theme^="dark-"] .app-shell select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a4adbc' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+:root[data-theme^="dark-"] .app-shell select option {
+  color: #eceff5;
+  background: #202631;
+}
+
+:root[dir="rtl"] .app-shell select {
+  padding-right: 11px;
+  padding-left: 30px;
+  background-position: left 10px center;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
