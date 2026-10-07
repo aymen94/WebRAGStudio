@@ -50,6 +50,8 @@ Use `npm install`, `npm run dev`, and corresponding `npm run <script>` commands 
 
 Uploads and pasted text share the same chunking, embedding, and storage pipeline. If indexing fails, check that the embedding provider is reachable and that its model supports embeddings. The chat model must support streaming chat completions.
 
+An embedding model converts document chunks and a user's question into vectors (lists of numbers) that represent their meaning. The app compares those vectors to find relevant passages for retrieval; the chat model then uses those passages to generate the answer. In the Ollama setup below, `qwen3-embedding:8b` is used for indexing and retrieval.
+
 ## Provider setup
 
 The Settings page is the easiest way to configure a provider. Chat and embeddings have separate model names, but share a provider connection (provider, base URL, and API key). Environment variables are read as defaults; saved settings take precedence.
@@ -60,14 +62,15 @@ In Settings choose `openai`, set the base URL to `https://api.openai.com/v1`, en
 
 ### Ollama
 
-Install and start Ollama, then pull one chat model and one embedding model, for example:
+Install and start Ollama, then pull an embedding model, for example:
 
 ```bash
-ollama pull llama3.2
-ollama pull nomic-embed-text
+ollama pull qwen3-embedding:8b
 ```
 
 Choose provider `ollama`, base URL `http://localhost:11434`, and the model names you pulled. The app adds the OpenAI-compatible `/v1` endpoint automatically. Leave the API key blank unless your Ollama endpoint requires one.
+
+`qwen3-embedding:8b` has been tested for RAG indexing and chat workflows as the embedding model. Select a chat model separately in Settings to generate responses using the retrieved passages.
 
 ### Other compatible services
 
