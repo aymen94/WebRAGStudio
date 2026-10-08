@@ -1,29 +1,41 @@
 import { randomUUID } from "node:crypto";
-import { embed as aiEmbed } from "ai";
+import { OpenAIEmbeddings } from "@langchain/openai";
+import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { db } from "./db";
-import { getEmbeddingModel } from "./providers";
+import { getEmbeddingConfig } from "./providers";
 import { getAppSettings } from "./settings";
 
-export function chunkText(text: string, size = 700, overlap = 100) {
-  const words = text.trim().split(/\s+/).filter(Boolean),
-    chunks: string[] = [];
-  for (
-    let start = 0;
-    start < words.length;
-    start += Math.max(1, size - overlap)
-  ) {
-    const content = words.slice(start, start + size).join(" ");
-    if (content) chunks.push(content);
-  }
-  return chunks;
+const countWords = (s: string) => s.split(/\s+/).filter(Boolean).length;
+
+// Chunk size and overlap are measured in words.
+export async function chunkText(text: string, size = 700, overlap = 100) {
+  const splitter = new RecursiveCharacterTextSplitter({
+    chunkSize: Math.max(1, size),
+    chunkOverlap: Math.min(Math.max(0, overlap), Math.max(0, size - 1)),
+    lengthFunction: countWords,
+    separators: ["\n\n", "\n", ". ", " ", ""],
+  });
+  const chunks = await splitter.splitText(text.trim());
+  return chunks.map((c) => c.trim()).filter(Boolean);
+}
+
+function embeddings() {
+  const { model, baseURL, apiKey } = getEmbeddingConfig();
+  return new OpenAIEmbeddings({
+    model,
+    // Local OpenAI-compatible servers often accept any non-empty key.
+    apiKey: apiKey || "not-needed",
+    configuration: { baseURL },
+    maxRetries: 2,
+  });
 }
 
 export async function embed(text: string): Promise<number[]> {
-  const { embedding } = await aiEmbed({
-    model: getEmbeddingModel(),
-    value: text,
-  });
-  return embedding;
+  return embeddings().embedQuery(text);
+}
+
+export async function embedDocuments(texts: string[]): Promise<number[][]> {
+  return embeddings().embedDocuments(texts);
 }
 
 export async function ingest(
@@ -36,9 +48,14 @@ export async function ingest(
   ).run(documentId);
   try {
     const settings = getAppSettings();
-    const chunks = chunkText(text, settings.chunkSize, settings.chunkOverlap);
+    const chunks = await chunkText(
+      text,
+      settings.chunkSize,
+      settings.chunkOverlap,
+    );
     if (!chunks.length)
       throw new Error("No text could be extracted from this document");
+    const vectors = await embedDocuments(chunks);
     const insert = db.prepare(
       "INSERT INTO chunks (id, document_id, collection_id, content, embedding, ordinal) VALUES (?, ?, ?, ?, ?, ?)",
     );
@@ -48,7 +65,7 @@ export async function ingest(
         documentId,
         collectionId,
         chunks[i],
-        JSON.stringify(await embed(chunks[i])),
+        JSON.stringify(vectors[i]),
         i,
       );
     db.prepare("UPDATE documents SET status='READY' WHERE id=?").run(

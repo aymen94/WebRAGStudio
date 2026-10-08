@@ -34,7 +34,7 @@ documents → chunks → embeddings → SQLite → similarity search → LLM.
 
 - Create, rename, and delete collections.
 - Index text, PDF, DOCX, TXT, Markdown, CSV, and JSON documents. Uploads are limited to 10 MB.
-- Split text into configurable word-based chunks, embed each chunk, and store the text and embedding in SQLite.
+- Split text into configurable word-based chunks and embed them using LangChain (`@langchain/textsplitters` and `@langchain/openai` embeddings, used only for chunking and vectorization), then store the text and embedding in SQLite. Chat still uses the Vercel AI SDK.
 - Retrieve passages with cosine similarity and send only the selected passages to chat.
 - Stream answers, show retrieved source titles, and keep chat sessions locally.
 - Configure chat and embedding models separately. OpenAI, Ollama, and OpenAI-compatible endpoints use the same provider adapter.

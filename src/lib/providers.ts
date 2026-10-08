@@ -34,17 +34,17 @@ function config(task: ProviderTask) {
     baseURL,
     ...(apiKey ? { apiKey } : {}),
   });
-  return { provider, model, compatible };
+  return { provider, model, compatible, baseURL, apiKey };
+}
+
+export function getEmbeddingConfig() {
+  const { model, baseURL, apiKey } = config("embedding");
+  return { model, baseURL, apiKey };
 }
 
 export function getChatModel() {
   const { model, compatible } = config("chat");
   return compatible.chatModel(model);
-}
-
-export function getEmbeddingModel() {
-  const { model, compatible } = config("embedding");
-  return compatible.embeddingModel(model);
 }
 
 export function getProviderSummary() {
