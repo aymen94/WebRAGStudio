@@ -7,7 +7,16 @@ import {
   type SetStateAction,
 } from "react";
 import type { ChatEntry } from "@/components/chat/chat-transcript";
-import type { Activity } from "@/components/chat/activity-console";
+import type { Activity } from "@/components/chat/activity";
+import {
+  USAGE_MARKER,
+  defaultChatOptions,
+  resolveChatOptions,
+  type ChatOptions,
+  type ChatUsage,
+} from "@/lib/chat-options";
+
+const OPTIONS_KEY = "webrag-chat-options";
 
 type Options = {
   selected: string;
@@ -17,6 +26,7 @@ type Options = {
   busyAction: string;
   setBusyAction: Dispatch<SetStateAction<string>>;
   setMessage: Dispatch<SetStateAction<string>>;
+  reportError: (message: string) => void;
   refreshSessions: () => Promise<void>;
 };
 
@@ -28,25 +38,36 @@ export function useChatGeneration({
   busyAction,
   setBusyAction,
   setMessage,
+  reportError,
   refreshSessions,
 }: Options) {
   const [question, setQuestion] = useState("");
   const [chatMessages, setChatMessages] = useState<ChatEntry[]>([]);
   const [chatLogs, setChatLogs] = useState<Activity[]>([]);
-  const [chatConsoleOpen, setChatConsoleOpen] = useState(true);
+  const [chatOptions, setChatOptions] =
+    useState<ChatOptions>(defaultChatOptions);
+  const optionsLoaded = useRef(false);
   const chatScrollRef = useRef<HTMLDivElement>(null);
-  const chatLogRef = useRef<HTMLDivElement>(null);
   const chatAbortRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem(OPTIONS_KEY);
+      if (saved)
+        setChatOptions({ ...defaultChatOptions, ...JSON.parse(saved) });
+    } catch {}
+    optionsLoaded.current = true;
+  }, []);
+
+  useEffect(() => {
+    if (optionsLoaded.current)
+      window.localStorage.setItem(OPTIONS_KEY, JSON.stringify(chatOptions));
+  }, [chatOptions]);
 
   useEffect(() => {
     const area = chatScrollRef.current;
     if (area) area.scrollTop = area.scrollHeight;
   }, [chatMessages, busyAction]);
-
-  useEffect(() => {
-    const area = chatLogRef.current;
-    if (area) area.scrollTop = area.scrollHeight;
-  }, [chatLogs]);
 
   function addChatLog(text: string, level: Activity["level"] = "info") {
     setChatLogs((logs) => [
@@ -81,6 +102,7 @@ export function useChatGeneration({
     setQuestion("");
     setBusyAction("chat");
     setMessage("Retrieving context…");
+    setChatLogs([]);
     addChatLog(
       `Question submitted to collection ${activeCollectionName || selected}.`,
     );
@@ -94,6 +116,7 @@ export function useChatGeneration({
           question: submittedQuestion,
           collectionId: selected,
           sessionId: currentSessionId || undefined,
+          options: resolveChatOptions(chatOptions),
         }),
       });
       if (!response.ok) {
@@ -102,7 +125,7 @@ export function useChatGeneration({
         setChatMessages((messages) =>
           messages.filter((item) => item.id !== id),
         );
-        setMessage(error);
+        reportError(error);
         return;
       }
 
@@ -134,39 +157,57 @@ export function useChatGeneration({
         );
       }
 
+      const tokenHeader = response.headers.get("X-Rag-Tokens");
+      if (tokenHeader) {
+        try {
+          const usage = JSON.parse(tokenHeader) as ChatUsage;
+          setChatMessages((messages) =>
+            messages.map((item) => (item.id === id ? { ...item, usage } : item)),
+          );
+        } catch {}
+      }
+
       addChatLog("Streaming response…");
       const reader = response.body!.getReader();
       const decoder = new TextDecoder();
+      let raw = "";
+      const show = () => {
+        const cut = raw.indexOf(USAGE_MARKER);
+        const answer = cut === -1 ? raw : raw.slice(0, cut);
+        setChatMessages((messages) =>
+          messages.map((item) => (item.id === id ? { ...item, answer } : item)),
+        );
+      };
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        const text = decoder.decode(value, { stream: true });
-        if (text)
+        raw += decoder.decode(value, { stream: true });
+        show();
+      }
+      raw += decoder.decode();
+      show();
+      const marker = raw.indexOf(USAGE_MARKER);
+      if (marker !== -1) {
+        try {
+          const final = JSON.parse(raw.slice(marker + 1)) as ChatUsage;
           setChatMessages((messages) =>
             messages.map((item) =>
-              item.id === id ? { ...item, answer: item.answer + text } : item,
+              item.id === id ? { ...item, usage: final } : item,
             ),
           );
+          addChatLog(
+            `Tokens: ${final.retrieval} embedding + ${final.prompt} prompt + ${final.completion ?? 0} answer${final.estimated ? " (estimated)" : ""}.`,
+          );
+        } catch {}
       }
-      const finalText = decoder.decode();
-      if (finalText)
-        setChatMessages((messages) =>
-          messages.map((item) =>
-            item.id === id
-              ? { ...item, answer: item.answer + finalText }
-              : item,
-          ),
-        );
       addChatLog("Response completed.", "success");
     } catch (error) {
       if (controller.signal.aborted)
         addChatLog("Generation interrupted.", "warning");
       else {
-        addChatLog(
-          error instanceof Error ? error.message : "Chat request failed.",
-          "error",
-        );
-        setMessage("Chat failed. Please try again.");
+        const text = error instanceof Error ? error.message : "Chat request failed.";
+        addChatLog(text, "error");
+        reportError(text);
       }
       setChatMessages((messages) =>
         messages.filter((item) => item.id !== id || !!item.answer),
@@ -184,10 +225,10 @@ export function useChatGeneration({
     chatMessages,
     setChatMessages,
     chatLogs,
-    chatConsoleOpen,
-    setChatConsoleOpen,
+    clearChatLogs: () => setChatLogs([]),
+    chatOptions,
+    setChatOptions,
     chatScrollRef,
-    chatLogRef,
     addChatLog,
     interruptChat,
     ask,

@@ -10,6 +10,7 @@ import type { SettingsDraft } from "@/components/settings/settings-draft";
 type Options = {
   setBusyAction: Dispatch<SetStateAction<string>>;
   setMessage: Dispatch<SetStateAction<string>>;
+  reportError: (message: string) => void;
 };
 
 const defaults: SettingsDraft = {
@@ -28,7 +29,7 @@ const defaults: SettingsDraft = {
   clearApiKey: false,
 };
 
-export function useSettingsController({ setBusyAction, setMessage }: Options) {
+export function useSettingsController({ setBusyAction, setMessage, reportError }: Options) {
   const [settingsDraft, setSettingsDraft] = useState<SettingsDraft>(defaults);
 
   useEffect(() => {
@@ -42,8 +43,8 @@ export function useSettingsController({ setBusyAction, setMessage }: Options) {
           clearApiKey: false,
         })),
       )
-      .catch(() => setMessage("Could not load settings."));
-  }, [setMessage]);
+      .catch(() => reportError("Could not load settings."));
+  }, [reportError]);
 
   async function saveSettings(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -57,7 +58,7 @@ export function useSettingsController({ setBusyAction, setMessage }: Options) {
       });
       const data = await response.json();
       if (!response.ok) {
-        setMessage(data.error || "Could not save settings.");
+        reportError(data.error || "Could not save settings.");
         return;
       }
       setSettingsDraft((current) => ({
@@ -68,7 +69,7 @@ export function useSettingsController({ setBusyAction, setMessage }: Options) {
       }));
       setMessage("Settings saved to the local database.");
     } catch {
-      setMessage("Could not save settings. Please try again.");
+      reportError("Could not save settings. Please try again.");
     } finally {
       setBusyAction("");
     }

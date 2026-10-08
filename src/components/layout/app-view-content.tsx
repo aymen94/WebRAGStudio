@@ -7,7 +7,8 @@ import type {
 import type { DocumentRow } from "@/components/documents/document-list";
 import type { ChatEntry } from "@/components/chat/chat-transcript";
 import type { ChatSessionSummary } from "@/components/chat/chat-history";
-import type { Activity } from "@/components/chat/activity-console";
+import type { Activity } from "@/components/chat/activity";
+import type { ChatOptions } from "@/lib/chat-options";
 import type { SettingsDraft } from "@/components/settings/settings-draft";
 import type { AppView } from "./app-frame";
 import { DashboardPage } from "@/components/dashboard/dashboard-page";
@@ -50,10 +51,9 @@ type Props = {
   currentSessionId: string;
   setCurrentSessionId: Dispatch<SetStateAction<string>>;
   chatLogs: Activity[];
-  chatConsoleOpen: boolean;
-  setChatConsoleOpen: Dispatch<SetStateAction<boolean>>;
+  chatOptions: ChatOptions;
+  setChatOptions: Dispatch<SetStateAction<ChatOptions>>;
   chatScrollRef: RefObject<HTMLDivElement | null>;
-  chatLogRef: RefObject<HTMLDivElement | null>;
   startNewChat: () => Promise<void>;
   openChatSession: (session: ChatSessionSummary) => Promise<void>;
   deleteChatSession: (session: ChatSessionSummary) => Promise<void>;
@@ -100,10 +100,9 @@ export function AppViewContent(props: Props) {
     currentSessionId,
     setCurrentSessionId,
     chatLogs,
-    chatConsoleOpen,
-    setChatConsoleOpen,
+    chatOptions,
+    setChatOptions,
     chatScrollRef,
-    chatLogRef,
     startNewChat,
     openChatSession,
     deleteChatSession,
@@ -203,11 +202,10 @@ export function AppViewContent(props: Props) {
           question={question}
           setQuestion={setQuestion}
           onAsk={ask}
-          chatConsoleOpen={chatConsoleOpen}
-          setChatConsoleOpen={setChatConsoleOpen}
+          chatOptions={chatOptions}
+          setChatOptions={setChatOptions}
           onInterrupt={interruptChat}
           chatLogs={chatLogs}
-          chatLogRef={chatLogRef}
         />
       )}
       {view === "Settings" && (

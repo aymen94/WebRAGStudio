@@ -11,6 +11,7 @@ type Options = {
   loadDocuments: () => Promise<void>;
   setBusyAction: Dispatch<SetStateAction<string>>;
   setMessage: Dispatch<SetStateAction<string>>;
+  reportError: (message: string) => void;
   confirm: (message: string, title?: string) => Promise<boolean>;
 };
 
@@ -19,6 +20,7 @@ export function useDocumentActions({
   loadDocuments,
   setBusyAction,
   setMessage,
+  reportError,
   confirm,
 }: Options) {
   const [title, setTitle] = useState("");
@@ -57,11 +59,10 @@ export function useDocumentActions({
         form.reset();
         await loadDocuments();
       }
-      setMessage(
-        failures.length
-          ? `Indexed ${indexed}/${files.length} files. ${failures.join("; ")}`
-          : `Indexed ${indexed} ${indexed === 1 ? "file" : "files"}.`,
-      );
+      if (failures.length) {
+        const summary = `Indexed ${indexed}/${files.length} files.\n${failures.join("\n")}`;
+        reportError(summary);
+      } else setMessage(`Indexed ${indexed} ${indexed === 1 ? "file" : "files"}.`);
     } finally {
       setBusyAction("");
     }
@@ -78,18 +79,15 @@ export function useDocumentActions({
         body: JSON.stringify({ title, content, collectionId: selected }),
       });
       const data = await response.json();
-      setMessage(
-        response.ok
-          ? `Indexed ${data.chunks} chunks.`
-          : data.error || "Indexing failed",
-      );
+      if (response.ok) setMessage(`Indexed ${data.chunks} chunks.`);
+      else reportError(data.error || "Indexing failed");
       if (response.ok) {
         setTitle("");
         setContent("");
         await loadDocuments();
       }
     } catch {
-      setMessage("Indexing failed. Please try again.");
+      reportError("Indexing failed. Please try again.");
     } finally {
       setBusyAction("");
     }
@@ -107,12 +105,12 @@ export function useDocumentActions({
         await loadDocuments();
         setMessage("Document and vectors removed.");
       } else {
-        setMessage(
+        reportError(
           (await response.json()).error || "Could not remove document",
         );
       }
     } catch {
-      setMessage("Could not remove document");
+      reportError("Could not remove document");
     } finally {
       setBusyAction("");
     }

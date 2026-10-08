@@ -1,16 +1,19 @@
 import { useI18n } from "@/i18n/provider";
+import { totalTokens, type ChatUsage } from "@/lib/chat-options";
 
 export type ChatEntry = {
   id: string;
   question: string;
   answer: string;
   sources: { title: string }[];
+  usage?: ChatUsage;
 };
 
 type Props = {
   messages: ChatEntry[];
   activeCollectionName?: string;
   generating: boolean;
+  showCost?: boolean;
   scrollRef: React.RefObject<HTMLDivElement | null>;
 };
 
@@ -18,6 +21,7 @@ export function ChatTranscript({
   messages,
   activeCollectionName,
   generating,
+  showCost,
   scrollRef,
 }: Props) {
   const { t } = useI18n();
@@ -58,6 +62,14 @@ export function ChatTranscript({
                       ▧ {source.title}
                     </span>
                   ))}
+                </div>
+              )}
+              {showCost && item.usage?.completion !== undefined && (
+                <div className="token-cost">
+                  {item.usage.estimated ? "≈ " : ""}
+                  {totalTokens(item.usage)} {t("tokens")} ·{" "}
+                  {t("question")} {item.usage.question} · {t("RAG context")}{" "}
+                  {item.usage.context} · {t("answer")} {item.usage.completion}
                 </div>
               )}
             </div>

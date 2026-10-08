@@ -8,10 +8,9 @@ import {
   ChatTranscript,
   type ChatEntry,
 } from "@/components/chat/chat-transcript";
-import {
-  ActivityConsole,
-  type Activity,
-} from "@/components/chat/activity-console";
+import { ProcessFlow } from "@/components/chat/process-flow";
+import type { Activity } from "@/components/chat/activity";
+import type { ChatOptions } from "@/lib/chat-options";
 import {
   SelectPicker,
   type PickerOption,
@@ -37,11 +36,10 @@ type Props = {
   question: string;
   setQuestion: Dispatch<SetStateAction<string>>;
   onAsk: SubmitEventHandler<HTMLFormElement>;
-  chatConsoleOpen: boolean;
-  setChatConsoleOpen: Dispatch<SetStateAction<boolean>>;
+  chatOptions: ChatOptions;
+  setChatOptions: Dispatch<SetStateAction<ChatOptions>>;
   onInterrupt: () => void;
   chatLogs: Activity[];
-  chatLogRef: React.RefObject<HTMLDivElement | null>;
 };
 
 export function ChatPage({
@@ -62,11 +60,10 @@ export function ChatPage({
   question,
   setQuestion,
   onAsk: ask,
-  chatConsoleOpen,
-  setChatConsoleOpen,
+  chatOptions,
+  setChatOptions,
   onInterrupt: interruptChat,
   chatLogs,
-  chatLogRef,
 }: Props) {
   const { t } = useI18n();
   const collectionOptions = [
@@ -114,6 +111,7 @@ export function ChatPage({
             messages={chatMessages}
             activeCollectionName={activeCollection?.name}
             generating={busyAction === "chat"}
+            showCost={chatOptions.showCost}
             scrollRef={chatScrollRef}
           />
           <ChatComposer
@@ -121,20 +119,18 @@ export function ChatPage({
             setQuestion={setQuestion}
             busyAction={busyAction}
             selected={selected}
-            chatConsoleOpen={chatConsoleOpen}
-            setChatConsoleOpen={setChatConsoleOpen}
+            chatOptions={chatOptions}
+            setChatOptions={setChatOptions}
             onAsk={ask}
             onInterrupt={interruptChat}
           />
         </section>
       </div>
-      {chatConsoleOpen && (
-        <ActivityConsole
-          entries={chatLogs}
-          running={busyAction === "chat"}
-          outputRef={chatLogRef}
-        />
-      )}
+      <ProcessFlow
+        entries={chatLogs}
+        running={busyAction === "chat"}
+        usage={chatOptions.showCost ? chatMessages.at(-1)?.usage : undefined}
+      />
     </>
   );
 }

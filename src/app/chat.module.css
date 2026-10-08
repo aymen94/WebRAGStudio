@@ -172,7 +172,7 @@
   border-radius: 12px 12px 3px 12px;
   padding: 11px 14px;
   color: #45415d;
-  background: #f5f2ff;
+  background: #ffffff;
 }
 
 .scope :global(.message-label) {
@@ -180,6 +180,7 @@
   color: #7668bb;
   font-size: 9px;
   font-weight: 750;
+  font-color: #000000;
 }
 
 .scope :global(.user-message) p {
@@ -281,70 +282,191 @@
   background: #ffe9eb;
 }
 
-.scope :global(.chat-console) {
+.scope :global(.chat-options) {
+  position: static;
+}
+
+.scope :global(.chat-form) {
+  position: relative;
+}
+
+.scope :global(.chat-options) > summary {
+  cursor: pointer;
+  list-style: none;
+  white-space: nowrap;
+}
+
+.scope :global(.chat-options) > summary::-webkit-details-marker {
+  display: none;
+}
+
+.scope :global(.chat-options-panel) {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: calc(100% + 8px);
+  z-index: 20;
+  display: grid;
+  gap: 10px;
+  border: 1px solid #e5e5ee;
+  border-radius: 10px;
+  padding: 12px;
+  background: white;
+  box-shadow: 0 8px 28px #29305a1f;
+  font-size: 10px;
+}
+
+.scope :global(.chat-options-presets) {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.scope :global(.chat-options-preset) {
+  border: 1px solid #e4e5ec;
+  border-radius: 6px;
+  padding: 6px 4px;
+  color: #555a6c;
+  background: white;
+  font-size: 9px;
+  cursor: pointer;
+}
+
+.scope :global(.chat-options-preset.is-active) {
+  border-color: #8978cf;
+  color: #7565b9;
+  background: #f6f4ff;
+  font-weight: 650;
+}
+
+.scope :global(.chat-options-hint) {
+  margin: 0;
+  color: #8a8e9e;
+}
+
+.scope :global(.chat-options-grid) {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.scope :global(.chat-options label),
+.scope :global(.chat-options-field) {
+  display: grid;
+  gap: 4px;
+  color: #555a6c;
+}
+
+.scope :global(.chat-options textarea),
+.scope :global(.chat-options input[type="number"]) {
+  width: 100%;
+  border: 1px solid #e4e5ec;
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 10px;
+}
+
+.scope :global(.chat-options .chat-options-check) {
   display: flex;
-  height: 112px;
-  flex: 0 0 auto;
-  flex-direction: column;
-  overflow: hidden;
-  border: 1px solid #252a3a;
-  border-radius: 8px;
-  color: #d5d9e5;
-  background: #171a24;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  align-items: center;
+  gap: 6px;
 }
 
-.scope :global(.chat-console-card) {
+.scope :global(.token-cost) {
+  color: #8a8e9e;
+  font-size: 9px;
+}
+
+.scope :global(.process-flow-tokens) {
+  color: #7565b9;
+  font-size: 8px;
+}
+
+.scope :global(.process-flow-total) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 12px;
+  border-top: 1px solid #f0f0f4;
+  padding-top: 8px;
+  color: #555a6c;
+  font-size: 10px;
+}
+
+.scope :global(.process-flow-total span) {
+  color: #8a8e9e;
+  font-size: 9px;
+}
+
+.scope :global(.process-flow-card) {
   grid-column: 2;
-  padding: 8px;
+  padding: 12px 16px;
+  margin-top: 12px;
 }
 
-.scope :global(.chat-console-heading) {
+.scope :global(.process-flow-heading) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #2c3040;
-  padding: 7px 10px;
-  color: #e6e9f2;
-  font-size: 9px;
+  color: #555a6c;
+  font-size: 10px;
 }
 
-.scope :global(.chat-console-heading span) {
-  color: #8ed9ad;
+.scope :global(.process-flow-heading span) {
+  color: #8a8e9e;
   font-size: 8px;
-  letter-spacing: 0.5px;
+  letter-spacing: .5px;
 }
 
-.scope :global(.chat-console-output) {
+.scope :global(.process-flow) {
   display: grid;
-  align-content: start;
-  gap: 3px;
-  overflow-y: auto;
-  padding: 7px 10px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-top: 12px;
+}
+
+.scope :global(.process-flow-step) {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  color: #999dac;
   font-size: 9px;
 }
 
-.scope :global(.chat-log-line) {
-  display: grid;
-  grid-template-columns: 62px minmax(0, 1fr);
-  gap: 8px;
-  line-height: 1.45;
+.scope :global(.process-flow-edge) {
+  position: absolute;
+  top: 12px;
+  right: 50%;
+  width: 100%;
+  border-top: 2px solid #e8e8ef;
 }
 
-.scope :global(.chat-log-line time) {
-  color: #7e8496;
+.scope :global(.process-flow-node) {
+  z-index: 1;
+  display: grid;
+  width: 25px;
+  height: 25px;
+  place-items: center;
+  border: 2px solid #e4e5ec;
+  border-radius: 50%;
+  color: #9a9dac;
+  background: white;
+  font-size: 9px;
+  transition: .2s ease;
 }
-.scope :global(.chat-log-line span) {
-  overflow-wrap: anywhere;
-}
-.scope :global(.chat-log-success span) {
-  color: #8ed9ad;
-}
-.scope :global(.chat-log-warning span) {
-  color: #eac47b;
-}
-.scope :global(.chat-log-error span) {
-  color: #f08b93;
+
+.scope :global(.process-flow-complete) { color: #4c9c70; }
+.scope :global(.process-flow-complete .process-flow-node) { border-color: #8bd3a5; color: white; background: #62b983; }
+.scope :global(.process-flow-complete .process-flow-edge) { border-color: #8bd3a5; }
+.scope :global(.process-flow-active) { color: #7565b9; font-weight: 650; }
+.scope :global(.process-flow-active .process-flow-node) { border-color: #8978cf; color: #7565b9; box-shadow: 0 0 0 4px #8978cf20; animation: process-pulse 1.4s ease-in-out infinite; }
+.scope :global(.process-flow-error) { color: #bd5862; }
+.scope :global(.process-flow-error .process-flow-node) { border-color: #df838a; color: white; background: #d96e77; }
+
+@keyframes process-pulse {
+  50% { box-shadow: 0 0 0 7px #8978cf10; }
 }
 
 @media (max-width: 700px) {
@@ -358,8 +480,13 @@
     grid-template-columns: 1fr;
   }
 
-  .scope :global(.chat-console-card) {
+  .scope :global(.process-flow-card) {
     grid-column: auto;
+    padding: 10px;
+  }
+
+  .scope :global(.process-flow-step) {
+    font-size: 8px;
   }
 
   .scope :global(.chat-history) {

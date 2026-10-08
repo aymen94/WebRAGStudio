@@ -17,6 +17,7 @@ type Options = {
   busyAction: string;
   setBusyAction: Dispatch<SetStateAction<string>>;
   setMessage: Dispatch<SetStateAction<string>>;
+  reportError: (message: string) => void;
   confirm: (message: string, title?: string) => Promise<boolean>;
 };
 
@@ -28,6 +29,7 @@ export function useChatController({
   busyAction,
   setBusyAction,
   setMessage,
+  reportError,
   confirm,
 }: Options) {
   const [chatSessions, setChatSessions] = useState<ChatSessionSummary[]>([]);
@@ -40,6 +42,7 @@ export function useChatController({
     busyAction,
     setBusyAction,
     setMessage,
+    reportError,
     refreshSessions: loadChatSessions,
   });
 
@@ -53,7 +56,7 @@ export function useChatController({
         await fetch("/api/chat/sessions").then((response) => response.json()),
       );
     } catch {
-      setMessage("Could not load chat history.");
+      reportError("Could not load chat history.");
     }
   }
 
@@ -62,28 +65,12 @@ export function useChatController({
       if (!selected) setMessage("Select a collection to start a chat.");
       return;
     }
-    setBusyAction("new-chat");
-    try {
-      const response = await fetch("/api/chat/sessions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ collectionId: selected }),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        setMessage(data.error || "Could not start a new chat.");
-        return;
-      }
-      setCurrentSessionId(data.id);
-      chat.setChatMessages([]);
-      chat.setQuestion("");
-      setMessage("");
-      await loadChatSessions();
-    } catch {
-      setMessage("Could not start a new chat.");
-    } finally {
-      setBusyAction("");
-    }
+    // The session is created by the server with the first question.
+    setCurrentSessionId("");
+    chat.setChatMessages([]);
+    chat.clearChatLogs();
+    chat.setQuestion("");
+    setMessage("");
   }
 
   async function openChatSession(session: ChatSessionSummary) {
@@ -93,16 +80,17 @@ export function useChatController({
       const response = await fetch(`/api/chat/sessions/${session.id}`);
       const data = await response.json();
       if (!response.ok) {
-        setMessage(data.error || "Could not open chat.");
+        reportError(data.error || "Could not open chat.");
         return;
       }
       setCurrentSessionId(session.id);
       setSelected(data.collection_id);
       chat.setChatMessages(data.messages);
+      chat.clearChatLogs();
       chat.setQuestion("");
       setMessage("");
     } catch {
-      setMessage("Could not open chat.");
+      reportError("Could not open chat.");
     } finally {
       setBusyAction("");
     }
@@ -116,7 +104,7 @@ export function useChatController({
         method: "DELETE",
       });
       if (!response.ok) {
-        setMessage((await response.json()).error || "Could not delete chat.");
+        reportError((await response.json()).error || "Could not delete chat.");
         return;
       }
       setChatSessions((items) =>
@@ -125,11 +113,12 @@ export function useChatController({
       if (currentSessionId === session.id) {
         setCurrentSessionId("");
         chat.setChatMessages([]);
+        chat.clearChatLogs();
         chat.setQuestion("");
       }
       setMessage("Chat deleted.");
     } catch {
-      setMessage("Could not delete chat.");
+      reportError("Could not delete chat.");
     } finally {
       setBusyAction("");
     }

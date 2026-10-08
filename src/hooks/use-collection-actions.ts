@@ -13,6 +13,7 @@ type Options = {
   reload: () => Promise<void>;
   setBusyAction: Dispatch<SetStateAction<string>>;
   setMessage: Dispatch<SetStateAction<string>>;
+  reportError: (message: string) => void;
   confirm: (message: string, title?: string) => Promise<boolean>;
   prompt: (message: string, initialValue: string) => Promise<string | null>;
 };
@@ -24,6 +25,7 @@ export function useCollectionActions({
   reload,
   setBusyAction,
   setMessage,
+  reportError,
   confirm,
   prompt,
 }: Options) {
@@ -43,10 +45,10 @@ export function useCollectionActions({
         await reload();
         setMessage("Collection created.");
       } else {
-        setMessage("Could not create collection");
+        reportError("Could not create collection");
       }
     } catch {
-      setMessage("Could not create collection");
+      reportError("Could not create collection");
     } finally {
       setBusyAction("");
     }
@@ -66,13 +68,13 @@ export function useCollectionActions({
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name: nextName }),
         });
-        if (!response.ok) setMessage("Could not rename collection");
+        if (!response.ok) reportError("Could not rename collection");
         else {
           await reload();
           setMessage("Collection renamed.");
         }
       } catch {
-        setMessage("Could not rename collection");
+        reportError("Could not rename collection");
       } finally {
         setBusyAction("");
       }
@@ -87,10 +89,10 @@ export function useCollectionActions({
           await reload();
           setMessage("Collection deleted.");
         } else {
-          setMessage("Could not delete collection");
+          reportError("Could not delete collection");
         }
       } catch {
-        setMessage("Could not delete collection");
+        reportError("Could not delete collection");
       } finally {
         setBusyAction("");
       }

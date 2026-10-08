@@ -5,11 +5,16 @@ import { db } from "@/lib/db";
 export const runtime = "nodejs";
 
 export async function GET() {
+  db.prepare(
+    "DELETE FROM chat_sessions WHERE NOT EXISTS (SELECT 1 FROM chat_messages m WHERE m.session_id=chat_sessions.id)",
+  ).run();
   const sessions = db
     .prepare(
       `SELECT s.id, s.collection_id, s.title, s.updated_at, c.name AS collection_name,
     (SELECT COUNT(*) FROM chat_messages m WHERE m.session_id=s.id) AS message_count
-    FROM chat_sessions s JOIN collections c ON c.id=s.collection_id ORDER BY s.updated_at DESC`,
+    FROM chat_sessions s JOIN collections c ON c.id=s.collection_id
+    WHERE EXISTS (SELECT 1 FROM chat_messages m WHERE m.session_id=s.id)
+    ORDER BY s.updated_at DESC`,
     )
     .all();
   return NextResponse.json(sessions);

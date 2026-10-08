@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { DocumentRow } from "@/components/documents/document-list";
 import { useDocumentActions } from "@/hooks/use-document-actions";
 import { useCollectionActions } from "@/hooks/use-collection-actions";
@@ -40,6 +40,14 @@ export default function Home() {
   const [message, setMessage] = useState("");
   const [busyAction, setBusyAction] = useState("");
   const appDialog = useAppDialog();
+  const { alert: showAlert } = appDialog;
+  const reportError = useCallback(
+    (text: string) => {
+      setMessage(text);
+      void showAlert(text);
+    },
+    [showAlert],
+  );
   const {
     title,
     setTitle,
@@ -53,6 +61,7 @@ export default function Home() {
     loadDocuments: loadDocs,
     setBusyAction,
     setMessage,
+    reportError,
     confirm: appDialog.confirm,
   });
   const { name, setName, createCollection, manageCollection } =
@@ -63,11 +72,12 @@ export default function Home() {
       reload: load,
       setBusyAction,
       setMessage,
+      reportError,
       confirm: appDialog.confirm,
       prompt: appDialog.prompt,
     });
   const { settingsDraft, setSettingsDraft, saveSettings } =
-    useSettingsController({ setBusyAction, setMessage });
+    useSettingsController({ setBusyAction, setMessage, reportError });
   const activeCollection = collections.find((c) => c.id === selected);
   const {
     question,
@@ -78,10 +88,9 @@ export default function Home() {
     currentSessionId,
     setCurrentSessionId,
     chatLogs,
-    chatConsoleOpen,
-    setChatConsoleOpen,
+    chatOptions,
+    setChatOptions,
     chatScrollRef,
-    chatLogRef,
     startNewChat,
     openChatSession,
     deleteChatSession,
@@ -96,6 +105,7 @@ export default function Home() {
     busyAction,
     setBusyAction,
     setMessage,
+    reportError,
     confirm: appDialog.confirm,
   });
 
@@ -191,10 +201,9 @@ export default function Home() {
         currentSessionId={currentSessionId}
         setCurrentSessionId={setCurrentSessionId}
         chatLogs={chatLogs}
-        chatConsoleOpen={chatConsoleOpen}
-        setChatConsoleOpen={setChatConsoleOpen}
+        chatOptions={chatOptions}
+        setChatOptions={setChatOptions}
         chatScrollRef={chatScrollRef}
-        chatLogRef={chatLogRef}
         startNewChat={startNewChat}
         openChatSession={openChatSession}
         deleteChatSession={deleteChatSession}

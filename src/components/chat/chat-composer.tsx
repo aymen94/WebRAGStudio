@@ -1,5 +1,7 @@
 import type { Dispatch, SetStateAction, SubmitEventHandler } from "react";
 import { ActionButton } from "@/components/shared/action-button";
+import { ChatOptionsMenu } from "@/components/chat/chat-options-menu";
+import type { ChatOptions } from "@/lib/chat-options";
 import { useI18n } from "@/i18n/provider";
 
 type Props = {
@@ -7,8 +9,8 @@ type Props = {
   setQuestion: Dispatch<SetStateAction<string>>;
   busyAction: string;
   selected: string;
-  chatConsoleOpen: boolean;
-  setChatConsoleOpen: Dispatch<SetStateAction<boolean>>;
+  chatOptions: ChatOptions;
+  setChatOptions: Dispatch<SetStateAction<ChatOptions>>;
   onAsk: SubmitEventHandler<HTMLFormElement>;
   onInterrupt: () => void;
 };
@@ -18,8 +20,8 @@ export function ChatComposer({
   setQuestion,
   busyAction,
   selected,
-  chatConsoleOpen,
-  setChatConsoleOpen,
+  chatOptions,
+  setChatOptions,
   onAsk,
   onInterrupt,
 }: Props) {
@@ -39,13 +41,11 @@ export function ChatComposer({
           {t("Only retrieved document context is sent to your model.")}
         </span>
         <div className="chat-form-actions">
-          <button
-            className="button button-light"
-            type="button"
-            onClick={() => setChatConsoleOpen((open) => !open)}
-          >
-            {chatConsoleOpen ? t("Hide console") : t("Console")}
-          </button>
+          <ChatOptionsMenu
+            options={chatOptions}
+            setOptions={setChatOptions}
+            disabled={!!busyAction}
+          />
           {busyAction === "chat" && (
             <button
               className="button button-stop"
