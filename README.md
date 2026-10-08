@@ -4,9 +4,31 @@
   <img src="public/logo.png" alt="WebRAGStudio logo" width="180" />
 </p>
 
-WebRAGStudio is a self-hosted, single-user RAG app for indexing local documents and asking questions against the retrieved passages. It runs as one Next.js application and stores its data in a local SQLite database.
+> A simple, self-hosted RAG workspace for chatting with your own documents.
 
-See the [interface screenshots](SCREENSHOTS.md) for a visual overview of the app.
+<p align="center">
+  <img src="screenshots/screenshots.gif" alt="WebRAGStudio demo" width="720" />
+</p>
+
+<p align="center"><em>More screens: <a href="SCREENSHOTS.md">dashboard, collections, documents, and settings</a>.</em></p>
+
+WebRAGStudio lets you index your documents locally and chat with them using OpenAI, Ollama, or any OpenAI-compatible LLM. It runs as one Next.js application and stores all data in a local SQLite database — no vector DB, no SaaS, no accounts.
+
+- 🏠 Self-hosted — your own Next.js app, your own machine
+- 🔒 Local SQLite storage — documents, chunks, embeddings, and chat history stay on disk
+- 🤖 OpenAI / Ollama / OpenAI-compatible APIs — one provider adapter, separate chat and embedding models
+- 📄 PDF, DOCX, TXT, Markdown, CSV, JSON — upload or paste text, indexed through the same pipeline
+- 🔍 Vector similarity search — cosine similarity over stored embeddings, no extra infrastructure
+- 💬 Streaming chat with retrieved sources — see which passages backed each answer
+- ⚡ Next.js + TypeScript — a single app, nothing to orchestrate
+- 🪶 Single-user and intentionally simple — no auth, no multi-tenancy, no background services
+
+## Why?
+
+I wanted a small RAG application that I could run myself without deploying a complicated vector database or SaaS platform.
+
+WebRAGStudio keeps the architecture deliberately simple:
+documents → chunks → embeddings → SQLite → similarity search → LLM.
 
 ## Features
 
